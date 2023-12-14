@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.sefa.movies.R
 import com.sefa.movies.data.util.Resource
 import com.sefa.movies.databinding.FragmentMainBinding
+import com.sefa.movies.ui.main.adapter.MovieAdapter
 import com.sefa.movies.ui.main.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,6 +22,7 @@ class MainFragment : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
     private val getDataViewModel : MainViewModel by viewModels()
+    private lateinit var movieAdapter: MovieAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +34,18 @@ class MainFragment : Fragment() {
     ): View? {
 
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_main,container,false)
-        getData()
+        setupRV()
         return binding.root
+    }
+    private fun setupRV()
+    {
+        movieAdapter = MovieAdapter()
+        binding.rv.apply {
+            adapter=movieAdapter
+            layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
+        }
+        getData()
     }
 
     private fun getData()
@@ -41,7 +54,9 @@ class MainFragment : Fragment() {
             when(moviesList)
             {
                 is Resource.Success -> {
+                    binding.progressBar.visibility = View.GONE
 
+                    moviesList.data?.let { movieAdapter.submitList(it) }
                     moviesList.data?.get(0).let { Log.e("TAG","MainFragment ${it.toString()}")}
                     moviesList.data?.let {
                         for (movie in it)
@@ -52,11 +67,12 @@ class MainFragment : Fragment() {
                 }
 
                 is Resource.Error -> {
+                    binding.progressBar.visibility = View.GONE
                     Toast.makeText(context,"Oops!, data didn't pull...",Toast.LENGTH_SHORT).show()
                 }
 
                 is Resource.Loading ->{
-                    Toast.makeText(context,"Loading...",Toast.LENGTH_SHORT).show()
+                    binding.progressBar.visibility = View.VISIBLE
                 }
             }
         }
