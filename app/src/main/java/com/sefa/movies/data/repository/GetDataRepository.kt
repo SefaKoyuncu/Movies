@@ -25,45 +25,4 @@ class GetDataRepository
                 emit(Resource.Success(result.body()))
         }.flowOn(Dispatchers.IO)
     }
-
-    fun isOnline(): Boolean
-    {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (connectivityManager != null) {
-            val capabilities =
-                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-            if (capabilities != null) {
-                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
-                    return true
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
-                    return true
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
-                    return true
-                }
-            }
-        }
-        return false
-    }
-
-
-    /* return flow {
-            if (isOnline()) {
-                try {
-                    val result = remoteDataSources.getPopularMovies()
-                    if (result.isSuccessful) {
-                        emit(Resource.Success(result.body()))
-                    } else {
-                        emit(Resource.Error(result.message()))
-                    }
-                } catch (e: Exception) {
-                    emit(Resource.Error(e.message))
-                }
-            } else {
-                emit(Resource.Error("No Internet connection"))
-            }
-        }.flowOn(Dispatchers.IO)*/
 }

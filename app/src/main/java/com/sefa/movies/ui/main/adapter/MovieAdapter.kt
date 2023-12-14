@@ -21,7 +21,6 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.CardViewHolder>()
         override fun areContentsTheSame(oldItem: Result, newItem: Result): Boolean {
             return oldItem == newItem
         }
-
         override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
             return oldItem.id == newItem.id
         }
