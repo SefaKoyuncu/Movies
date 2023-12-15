@@ -1,15 +1,13 @@
-package com.sefa.movies.ui.main.adapter
+package com.sefa.movies.presentation.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.NavDirections
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.sefa.movies.data.model.Result
 import com.sefa.movies.databinding.CardMovieBinding
+import com.sefa.movies.domain.model.Movie
 import com.sefa.movies.utils.Constants.BASE_IMAGE_URL
 import java.text.DecimalFormat
 
@@ -17,18 +15,18 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.CardViewHolder>()
 {
     inner class CardViewHolder(val binding: CardMovieBinding) : RecyclerView.ViewHolder(binding.root)
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Result>(){
-        override fun areContentsTheSame(oldItem: Result, newItem: Result): Boolean {
+    private val diffCallback = object : DiffUtil.ItemCallback<Movie>(){
+        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
             return oldItem == newItem
         }
-        override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
+        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
             return oldItem.id == newItem.id
         }
     }
 
     private val differ = AsyncListDiffer(this, diffCallback)
 
-    fun submitList(list : List<Result>) = differ.submitList(list)
+    fun submitList(list : List<Movie>) = differ.submitList(list)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
 

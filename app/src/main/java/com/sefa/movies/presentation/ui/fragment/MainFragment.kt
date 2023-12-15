@@ -1,4 +1,4 @@
-package com.sefa.movies.ui.main
+package com.sefa.movies.presentation.ui.fragment
 
 import android.os.Bundle
 import android.util.Log
@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sefa.movies.R
 import com.sefa.movies.data.util.Resource
 import com.sefa.movies.databinding.FragmentMainBinding
-import com.sefa.movies.ui.main.adapter.MovieAdapter
-import com.sefa.movies.ui.main.viewmodel.MainViewModel
+import com.sefa.movies.presentation.ui.adapter.MovieAdapter
+import com.sefa.movies.presentation.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -54,21 +54,21 @@ class MainFragment : Fragment() {
             when(moviesList)
             {
                 is Resource.Success -> {
-                    binding.progressBar.visibility = View.GONE
-
-                    moviesList.data?.let { movieAdapter.submitList(it) }
-                    moviesList.data?.get(0).let { Log.e("TAG","MainFragment ${it.toString()}")}
                     moviesList.data?.let {
                         for (movie in it)
                         {
-                            Log.e("TAG","Movie info :  Title : ${movie.title} Vote Average : ${movie.vote_average} Overview : ${movie.overview}")
+                            Log.e("TAG-mFragment","Movie info :  Title : ${movie.title} Vote Average : ${movie.vote_average}")
                         }
                     }
+
+                    binding.progressBar.visibility = View.GONE
+                    moviesList.data?.let { movieAdapter.submitList(it) }
                 }
 
                 is Resource.Error -> {
                     binding.progressBar.visibility = View.GONE
-                    Toast.makeText(context,"Oops!, data didn't pull...",Toast.LENGTH_SHORT).show()
+                    val message = moviesList.message ?: "Oops!, data didn't pull..."
+                    Toast.makeText(context,message,Toast.LENGTH_SHORT).show()
                 }
 
                 is Resource.Loading ->{
