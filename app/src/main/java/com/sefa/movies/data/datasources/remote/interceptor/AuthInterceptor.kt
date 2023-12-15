@@ -1,4 +1,4 @@
-package com.sefa.movies.data.datasources.remote
+package com.sefa.movies.data.datasources.remote.interceptor
 
 import okhttp3.Interceptor
 import okhttp3.Request

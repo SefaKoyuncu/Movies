@@ -1,8 +1,9 @@
-package com.sefa.movies.data.datasources.remote
+package com.sefa.movies.data.datasources.remote.datasource
 
+import com.sefa.movies.data.datasources.remote.service.MovieService
 import javax.inject.Inject
 
-class RemoteDataSources
+class RemoteDataSource
 @Inject
 constructor(private val movieService: MovieService)
 {

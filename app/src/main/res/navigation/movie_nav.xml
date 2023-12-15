@@ -6,6 +6,6 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.sefa.movies.ui.main.MainFragment"
+        android:name="com.sefa.movies.presentation.ui.fragment.MainFragment"
         android:label="MainFragment" />
 </navigation>

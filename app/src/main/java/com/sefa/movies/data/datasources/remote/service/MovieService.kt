@@ -1,4 +1,4 @@
-package com.sefa.movies.data.datasources.remote
+package com.sefa.movies.data.datasources.remote.service
 
 import com.sefa.movies.data.model.MoviesResponse
 import retrofit2.Response
