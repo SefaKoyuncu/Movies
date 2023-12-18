@@ -1,11 +1,9 @@
 package com.sefa.movies.di
 
-import android.app.Application
-import android.content.Context
 import com.sefa.movies.BuildConfig
+import com.sefa.movies.data.datasources.remote.datasource.RemoteDataSource
 import com.sefa.movies.data.datasources.remote.interceptor.AuthInterceptor
 import com.sefa.movies.data.datasources.remote.service.MovieService
-import com.sefa.movies.data.datasources.remote.datasource.RemoteDataSource
 import com.sefa.movies.data.mapper.MovieMapper
 import com.sefa.movies.data.repository.MovieRepositoryImpl
 import com.sefa.movies.domain.repository.MovieRepository
@@ -24,14 +22,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule
 {
-
-    @Provides
-    @Singleton
-    fun provideContext(application: Application) : Context
-    {
-        return application.applicationContext
-    }
-
     @Provides
     fun provideBaseURL() = Constants.BASE_URL
 
