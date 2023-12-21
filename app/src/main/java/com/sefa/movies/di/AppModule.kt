@@ -1,7 +1,6 @@
 package com.sefa.movies.di
 
 import com.sefa.movies.BuildConfig
-import com.sefa.movies.data.datasources.remote.datasource.RemoteDataSource
 import com.sefa.movies.data.datasources.remote.interceptor.AuthInterceptor
 import com.sefa.movies.data.datasources.remote.service.MovieService
 import com.sefa.movies.data.mapper.MovieMapper
@@ -60,9 +59,8 @@ object AppModule
     @Singleton
     @Provides
     fun provideMovieRepository(
-        remoteDataSource: RemoteDataSource,
-        movieMapper: MovieMapper
+        movieService: MovieService,
     ): MovieRepository {
-        return MovieRepositoryImpl(remoteDataSource, movieMapper)
+        return MovieRepositoryImpl(movieService)
     }
 }

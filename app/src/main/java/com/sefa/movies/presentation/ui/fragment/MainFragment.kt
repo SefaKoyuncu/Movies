@@ -1,19 +1,19 @@
 package com.sefa.movies.presentation.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sefa.movies.R
 import com.sefa.movies.data.util.Resource
 import com.sefa.movies.databinding.FragmentMainBinding
-import com.sefa.movies.presentation.ui.adapter.MovieAdapter
+import com.sefa.movies.presentation.ui.adapter.LoaderStateAdapter
+import com.sefa.movies.presentation.ui.adapter.PagingMovieAdapter
 import com.sefa.movies.presentation.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +22,7 @@ class MainFragment : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
     private val getDataViewModel : MainViewModel by viewModels()
-    private lateinit var movieAdapter: MovieAdapter
+    private lateinit var moviePagingMovieAdapter: PagingMovieAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,30 +39,28 @@ class MainFragment : Fragment() {
     }
     private fun setupRV()
     {
-        movieAdapter = MovieAdapter()
+        moviePagingMovieAdapter = PagingMovieAdapter()
+
         binding.rv.apply {
-            adapter=movieAdapter
-            layoutManager = LinearLayoutManager(context)
+            val moviePagingAdapter = moviePagingMovieAdapter.withLoadStateFooter(
+                footer = LoaderStateAdapter { moviePagingMovieAdapter.retry() }
+            )
+            adapter = moviePagingAdapter
+            layoutManager =LinearLayoutManager(context)
             setHasFixedSize(true)
         }
-        getData()
+
+        getPagingData()
     }
 
-    private fun getData()
+    private fun getPagingData()
     {
-        getDataViewModel.getMovies.observe(viewLifecycleOwner){ moviesList->
+        getDataViewModel.getMoviesPagingData.observe(viewLifecycleOwner){ moviesList->
             when(moviesList)
             {
                 is Resource.Success -> {
-                    moviesList.data?.let {
-                        for (movie in it)
-                        {
-                            Log.e("TAG-mFragment","Movie info :  Title : ${movie.title} Vote Average : ${movie.vote_average}")
-                        }
-                    }
-
                     binding.progressBar.visibility = View.GONE
-                    moviesList.data?.let { movieAdapter.submitList(it) }
+                    moviesList.data?.let { moviePagingMovieAdapter.submitData(viewLifecycleOwner.lifecycle, it)}
                 }
 
                 is Resource.Error -> {
