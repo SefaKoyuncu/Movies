@@ -1,10 +1,10 @@
 package com.sefa.movies.domain.repository
 
-import com.sefa.movies.data.util.Resource
+import androidx.paging.PagingData
 import com.sefa.movies.domain.model.Movie
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository
 {
-    suspend fun fetchData() : Flow<Resource<List<Movie>>>
+    fun getPagingData() : Flow<PagingData<Movie>>
 }

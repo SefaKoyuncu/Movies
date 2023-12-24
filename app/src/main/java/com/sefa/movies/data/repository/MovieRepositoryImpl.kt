@@ -1,41 +1,29 @@
 package com.sefa.movies.data.repository
 
-import com.sefa.movies.data.datasources.remote.datasource.RemoteDataSource
-import com.sefa.movies.data.mapper.MovieMapper
-import com.sefa.movies.data.util.Resource
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.sefa.movies.data.datasources.remote.datasource.MoviesPagingSource
+import com.sefa.movies.data.datasources.remote.service.MovieService
 import com.sefa.movies.domain.model.Movie
 import com.sefa.movies.domain.repository.MovieRepository
+import com.sefa.movies.utils.Constants.DEFAULT_PAGE_SIZE
+import com.sefa.movies.utils.Constants.PREFETCH_DISTANCE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class MovieRepositoryImpl
-@Inject constructor(private val remoteDataSource: RemoteDataSource, private val movieMapper: MovieMapper)
+@Inject constructor(private val movieService: MovieService)
     : MovieRepository
 {
-    override suspend fun fetchData(): Flow<Resource<List<Movie>>>
+    override fun getPagingData(): Flow<PagingData<Movie>>
     {
-        return flow {
-            emit(Resource.Loading())
-
-            try
-            {
-                val response = remoteDataSource.getPopularMovies()
-                if (response.isSuccessful)
-                {
-                    val movies = response.body()?.results
-                    movies?.let {
-                        emit(Resource.Success(movieMapper.mapMovieResponseToDomain(it)))
-                    }
-                }
-            }
-            catch (e : Exception)
-            {
-                emit(Resource.Error(e.localizedMessage ?: "An error occurred"))
-            }
-
-        }.flowOn(Dispatchers.IO)
+        return Pager(
+                    config = PagingConfig( pageSize = DEFAULT_PAGE_SIZE,prefetchDistance = PREFETCH_DISTANCE),
+                    pagingSourceFactory = { MoviesPagingSource(movieService = movieService) }
+        ).flow
+            .flowOn(Dispatchers.IO)
     }
 }

@@ -1,14 +1,14 @@
 package com.sefa.movies.presentation.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sefa.movies.data.util.Resource
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.sefa.movies.domain.model.Movie
 import com.sefa.movies.domain.usecase.GetMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,30 +17,22 @@ class MainViewModel
 @Inject
 constructor(private val getMoviesUseCase: GetMoviesUseCase) : ViewModel()
 {
-    private val movies_ = MutableLiveData<Resource<List<Movie>>>()
-    val getMovies : LiveData<Resource<List<Movie>>>
-        get() = movies_
+    private val moviesPagingData_ = MutableStateFlow<PagingData<Movie>>(PagingData.empty())
+    val getMoviesPagingData: StateFlow<PagingData<Movie>>
+        get() = moviesPagingData_
 
     init {
-        getData()
+        observeMovies()
     }
 
-    private fun getData() = viewModelScope.launch {
-        movies_.postValue(Resource.Loading())
-        try {
+    private fun observeMovies()
+    {
+        viewModelScope.launch {
             getMoviesUseCase.invoke()
-                .catch{
-                    movies_.postValue(Resource.Error(it.message.toString()))
+                .cachedIn(viewModelScope)
+                .collect{ pagingData->
+                    moviesPagingData_.value = pagingData
                 }
-                .collect{ resource->
-                    resource.data?.let {list->
-                        movies_.postValue(Resource.Success(list))
-                    }
-                }
-        }
-        catch (e : Exception)
-        {
-            movies_.postValue(Resource.Error(e.localizedMessage?.toString() ?: "Oops!, data didn't pull"))
         }
     }
 }
