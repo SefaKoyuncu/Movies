@@ -8,20 +8,22 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sefa.movies.R
-import com.sefa.movies.data.util.Resource
 import com.sefa.movies.databinding.FragmentMainBinding
 import com.sefa.movies.presentation.ui.adapter.LoaderStateAdapter
 import com.sefa.movies.presentation.ui.adapter.PagingMovieAdapter
 import com.sefa.movies.presentation.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
-    private val getDataViewModel : MainViewModel by viewModels()
+    private val viewModel : MainViewModel by viewModels()
     private lateinit var moviePagingMovieAdapter: PagingMovieAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,8 +33,7 @@ class MainFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
+    ): View{
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_main,container,false)
         setupRV()
         return binding.root
@@ -50,29 +51,43 @@ class MainFragment : Fragment() {
             setHasFixedSize(true)
         }
 
-        getPagingData()
+        observeMovies()
     }
 
-    private fun getPagingData()
+    private fun observeMovies()
     {
-        getDataViewModel.getMoviesPagingData.observe(viewLifecycleOwner){ moviesList->
-            when(moviesList)
-            {
-                is Resource.Success -> {
-                    binding.progressBar.visibility = View.GONE
-                    moviesList.data?.let { moviePagingMovieAdapter.submitData(viewLifecycleOwner.lifecycle, it)}
-                }
+        viewLifecycleOwner.lifecycleScope.launch {
 
-                is Resource.Error -> {
-                    binding.progressBar.visibility = View.GONE
-                    val message = moviesList.message ?: "Oops!, data didn't pull..."
-                    Toast.makeText(context,message,Toast.LENGTH_SHORT).show()
-                }
-
-                is Resource.Loading ->{
-                    binding.progressBar.visibility = View.VISIBLE
+            moviePagingMovieAdapter.addLoadStateListener { loadState ->
+                when (val refreshState = loadState.source.refresh)
+                {
+                    is LoadState.Loading -> showLoadingState()
+                    is LoadState.Error -> showErrorState(refreshState.error)
+                    is LoadState.NotLoading -> hideLoadingState()
                 }
             }
+
+            viewModel.getMoviesPagingData.collect{ pagingData->
+                moviePagingMovieAdapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
+            }
         }
+    }
+
+    private fun showLoadingState() {
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideLoadingState() {
+        binding.progressBar.visibility = View.GONE
+    }
+
+    private fun showErrorState(error: Throwable) {
+        handleError(error.message.toString())
+        binding.progressBar.visibility = View.GONE
+    }
+
+    private fun handleError(error: String?)
+    {
+        Toast.makeText(context, error ?: "Ooops, error loading data!", Toast.LENGTH_LONG).show()
     }
 }
