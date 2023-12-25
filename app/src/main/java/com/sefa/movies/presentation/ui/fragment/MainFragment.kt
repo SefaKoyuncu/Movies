@@ -8,7 +8,9 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sefa.movies.R
@@ -58,17 +60,20 @@ class MainFragment : Fragment() {
     {
         viewLifecycleOwner.lifecycleScope.launch {
 
-            moviePagingMovieAdapter.addLoadStateListener { loadState ->
-                when (val refreshState = loadState.source.refresh)
-                {
-                    is LoadState.Loading -> showLoadingState()
-                    is LoadState.Error -> showErrorState(refreshState.error)
-                    is LoadState.NotLoading -> hideLoadingState()
-                }
-            }
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-            viewModel.getMoviesPagingData.collect{ pagingData->
-                moviePagingMovieAdapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
+                moviePagingMovieAdapter.addLoadStateListener { loadState ->
+                    when (val refreshState = loadState.source.refresh)
+                    {
+                        is LoadState.Loading -> showLoadingState()
+                        is LoadState.Error -> showErrorState(refreshState.error)
+                        is LoadState.NotLoading -> hideLoadingState()
+                    }
+                }
+
+                viewModel.getMoviesPagingData.collect{ pagingData->
+                    moviePagingMovieAdapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
+                }
             }
         }
     }
