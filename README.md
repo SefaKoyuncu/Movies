@@ -7,6 +7,7 @@
 - Navigation Component  
 - Repository Pattern
 - Retrofit
+- Room
 - DI (Hilt)
 - Flow, Stateflow
 - Coroutines
