@@ -11,4 +11,6 @@
     <color name="starColor">#F1C644</color>
     <color name="orange">#FF5722 </color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="content_scrim">@color/black</color>
+    <color name="release_date">#4E4E4E</color>
 </resources>

@@ -15,4 +15,13 @@
         <item name="cornerSize">10%</item>
     </style>
 
+    <style name="RoundedSquareDetails">
+        <item name="cornerSize">4%</item>
+    </style>
+
+    <style name="ToolbarTextAppearance" parent="ThemeOverlay.AppCompat.Light">
+        <item name="fontFamily">@font/poppins_semibold</item>
+        <item name="android:textSize">26sp</item>
+    </style>
+
 </resources>
