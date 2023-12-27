@@ -1,6 +1,10 @@
 package com.sefa.movies.di
 
+import android.content.Context
+import androidx.room.Room
 import com.sefa.movies.BuildConfig
+import com.sefa.movies.data.datasources.local.MovieDAO
+import com.sefa.movies.data.datasources.local.MovieDatabase
 import com.sefa.movies.data.datasources.remote.interceptor.AuthInterceptor
 import com.sefa.movies.data.datasources.remote.service.MovieService
 import com.sefa.movies.data.mapper.MovieMapper
@@ -63,4 +67,20 @@ object AppModule
     ): MovieRepository {
         return MovieRepositoryImpl(movieService)
     }
+
+    @Provides
+    @Singleton
+    fun provideDatabase(context: Context) : MovieDatabase
+    {
+        return Room.databaseBuilder(
+            context,
+            MovieDatabase::class.java,"CountryDatabase")
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCountryDao(database: MovieDatabase) : MovieDAO =
+        database.movieDao()
+
 }

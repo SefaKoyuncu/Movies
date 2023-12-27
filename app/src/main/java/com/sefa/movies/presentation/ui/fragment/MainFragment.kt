@@ -1,6 +1,7 @@
 package com.sefa.movies.presentation.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,18 +12,26 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.paging.filter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sefa.movies.R
 import com.sefa.movies.databinding.FragmentMainBinding
+import com.sefa.movies.domain.model.Movie
 import com.sefa.movies.presentation.ui.adapter.LoaderStateAdapter
 import com.sefa.movies.presentation.ui.adapter.PagingMovieAdapter
 import com.sefa.movies.presentation.viewmodel.MainViewModel
+import com.sefa.movies.utils.Gone
+import com.sefa.movies.utils.Visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+
 @AndroidEntryPoint
-class MainFragment : Fragment() {
+class MainFragment : Fragment(){
 
     private lateinit var binding: FragmentMainBinding
     private val viewModel : MainViewModel by viewModels()
@@ -42,7 +51,9 @@ class MainFragment : Fragment() {
     }
     private fun setupRV()
     {
-        moviePagingMovieAdapter = PagingMovieAdapter()
+        moviePagingMovieAdapter = PagingMovieAdapter{
+           onItemSelected(it)
+        }
 
         binding.rv.apply {
             val moviePagingAdapter = moviePagingMovieAdapter.withLoadStateFooter(
@@ -65,9 +76,13 @@ class MainFragment : Fragment() {
                 moviePagingMovieAdapter.addLoadStateListener { loadState ->
                     when (val refreshState = loadState.source.refresh)
                     {
-                        is LoadState.Loading -> showLoadingState()
-                        is LoadState.Error -> showErrorState(refreshState.error)
-                        is LoadState.NotLoading -> hideLoadingState()
+                        is LoadState.Loading -> binding.progressBar.Visible()
+
+                        is LoadState.Error -> {
+                            binding.progressBar.Gone()
+                            handleError(refreshState.error.message.toString()) }
+
+                        is LoadState.NotLoading -> binding.progressBar.Gone()
                     }
                 }
 
@@ -78,17 +93,10 @@ class MainFragment : Fragment() {
         }
     }
 
-    private fun showLoadingState() {
-        binding.progressBar.visibility = View.VISIBLE
-    }
-
-    private fun hideLoadingState() {
-        binding.progressBar.visibility = View.GONE
-    }
-
-    private fun showErrorState(error: Throwable) {
-        handleError(error.message.toString())
-        binding.progressBar.visibility = View.GONE
+    fun onItemSelected(movie: Movie) {
+        Log.e("TAG",movie.title)
+        val action : NavDirections = MainFragmentDirections.fromMaintoDetails(movie)
+       findNavController().navigate(action)
     }
 
     private fun handleError(error: String?)
