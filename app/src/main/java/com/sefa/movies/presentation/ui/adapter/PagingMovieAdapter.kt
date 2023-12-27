@@ -9,9 +9,10 @@ import coil.load
 import com.sefa.movies.databinding.CardMovieBinding
 import com.sefa.movies.domain.model.Movie
 import com.sefa.movies.utils.Constants
+import com.sefa.movies.utils.Constants.BASE_IMAGE_URL
 import java.text.DecimalFormat
 
-class PagingMovieAdapter : PagingDataAdapter<Movie, PagingMovieAdapter.MovieViewHolder>(MOVIE_COMPARATOR)
+class PagingMovieAdapter(private val onItemClicked: (Movie) -> Unit) : PagingDataAdapter<Movie, PagingMovieAdapter.MovieViewHolder>(MOVIE_COMPARATOR)
 {
     companion object {
         private val MOVIE_COMPARATOR = object : DiffUtil.ItemCallback<Movie>() {
@@ -32,8 +33,8 @@ class PagingMovieAdapter : PagingDataAdapter<Movie, PagingMovieAdapter.MovieView
 
         val decimalFormat = DecimalFormat("#.#")
 
-        val truncatedText = if (movie.title.length > 16) {
-            "${movie.title.substring(0, 16)}..."
+        val truncatedText = if (movie.title.length > 15) {
+            "${movie.title.substring(0, 15)}..."
         } else {
             movie.title
         }
@@ -42,7 +43,15 @@ class PagingMovieAdapter : PagingDataAdapter<Movie, PagingMovieAdapter.MovieView
             textViewMovieName.text = truncatedText
             textViewReleasedDate.text = movie.release_date
             textViewStarNumber.text = decimalFormat.format(movie.vote_average)
-            imageViewMovie.load(Constants.BASE_IMAGE_URL + movie.poster_path)
+            imageViewMovie.load(BASE_IMAGE_URL + movie.poster_path)
+
+           /* imageViewFavIcon.setOnClickListener {
+                onItemClicked(movie)
+            }*/
+
+            root.setOnClickListener{
+                onItemClicked(movie)
+            }
         }
     }
 
@@ -53,5 +62,9 @@ class PagingMovieAdapter : PagingDataAdapter<Movie, PagingMovieAdapter.MovieView
                 LayoutInflater.from(parent.context), parent, false
             )
         )
+    }
+
+    interface Interaction {
+        fun onItemSelected(position: Int, item: Movie)
     }
 }
