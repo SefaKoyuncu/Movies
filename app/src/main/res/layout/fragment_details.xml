@@ -108,7 +108,7 @@
                     android:layout_height="42dp"
                     app:layout_constraintEnd_toEndOf="@+id/imageViewMoviePoster"
                     app:layout_constraintTop_toTopOf="@+id/textViewReleaseDate"
-                    app:srcCompat="@drawable/fav" />
+                    app:srcCompat="@drawable/un_fav" />
 
                 <TextView
                     android:id="@+id/textView"
