@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.sefa.movies.databinding.CardMovieBinding
 import com.sefa.movies.domain.model.Movie
-import com.sefa.movies.utils.Constants
 import com.sefa.movies.utils.Constants.BASE_IMAGE_URL
 import java.text.DecimalFormat
 
@@ -33,8 +32,8 @@ class PagingMovieAdapter(private val onItemClicked: (Movie) -> Unit) : PagingDat
 
         val decimalFormat = DecimalFormat("#.#")
 
-        val truncatedText = if (movie.title.length > 15) {
-            "${movie.title.substring(0, 15)}..."
+        val truncatedText = if (movie.title.length > 16) {
+            "${movie.title.substring(0, 16)}..."
         } else {
             movie.title
         }

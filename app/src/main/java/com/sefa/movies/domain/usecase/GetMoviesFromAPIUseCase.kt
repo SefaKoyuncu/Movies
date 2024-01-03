@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class GetMoviesUseCase
+class GetMoviesFromAPIUseCase
 @Inject constructor(private val movieRepository: MovieRepository) {
     suspend fun invoke(): Flow<PagingData<Movie>> = flow {
             movieRepository.getPagingData()

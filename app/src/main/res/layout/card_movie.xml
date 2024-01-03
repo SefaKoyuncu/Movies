@@ -87,15 +87,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/textViewReleasedDate"
                     app:srcCompat="@drawable/star" />
 
-                <ImageView
-                    android:id="@+id/imageViewFavIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/imageViewMovie"
-                    app:srcCompat="@drawable/fav" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
