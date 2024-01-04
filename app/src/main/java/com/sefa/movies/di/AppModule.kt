@@ -1,5 +1,6 @@
 package com.sefa.movies.di
 
+import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.sefa.movies.BuildConfig
@@ -10,6 +11,10 @@ import com.sefa.movies.data.datasources.remote.service.MovieService
 import com.sefa.movies.data.mapper.MovieMapper
 import com.sefa.movies.data.repository.MovieRepositoryImpl
 import com.sefa.movies.domain.repository.MovieRepository
+import com.sefa.movies.domain.usecase.DeleteMovieFromDbUseCase
+import com.sefa.movies.domain.usecase.GetIsMovieExistInDbUseCase
+import com.sefa.movies.domain.usecase.InsertMovieToDbUseCase
+import com.sefa.movies.presentation.viewmodel.DetailsViewModel
 import com.sefa.movies.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -64,8 +69,9 @@ object AppModule
     @Provides
     fun provideMovieRepository(
         movieService: MovieService,
+        movieDAO: MovieDAO
     ): MovieRepository {
-        return MovieRepositoryImpl(movieService)
+        return MovieRepositoryImpl(movieService,movieDAO)
     }
 
     @Provides
@@ -83,4 +89,37 @@ object AppModule
     fun provideCountryDao(database: MovieDatabase) : MovieDAO =
         database.movieDao()
 
+    @Provides
+    @Singleton
+    fun provideApplicationContext(application: Application): Context {
+        return application.applicationContext
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetIsMovieExistInDbUseCase(movieRepository: MovieRepository): GetIsMovieExistInDbUseCase
+        = GetIsMovieExistInDbUseCase(movieRepository)
+
+    @Provides
+    @Singleton
+    fun provideInsertMovieToDbUseCase(movieRepository: MovieRepository): InsertMovieToDbUseCase
+        = InsertMovieToDbUseCase(movieRepository)
+
+    @Provides
+    @Singleton
+    fun provideDeleteMovieFromDbUseCase(movieRepository: MovieRepository): DeleteMovieFromDbUseCase
+        = DeleteMovieFromDbUseCase(movieRepository)
+
+    @Provides
+    fun provideDetailsViewModel(
+        getIsMovieExistInDb: GetIsMovieExistInDbUseCase,
+        insertMovieToDbUseCase: InsertMovieToDbUseCase,
+        deleteMovieFromDbUseCase: DeleteMovieFromDbUseCase
+    ): DetailsViewModel {
+        return DetailsViewModel(
+            getIsMovieExistInDb,
+            insertMovieToDbUseCase,
+            deleteMovieFromDbUseCase
+        )
+    }
 }

@@ -7,4 +7,12 @@ import kotlinx.coroutines.flow.Flow
 interface MovieRepository
 {
     fun getPagingData() : Flow<PagingData<Movie>>
+
+    fun isMovieExistInDb(movieID: Int) : Flow<Boolean>
+
+    suspend fun insertToDb(movie: Movie)
+
+    suspend fun deleteFromDb(movieID: Int)
+
+    suspend fun getAllMoviesFromDb() : Flow<PagingData<Movie>>
 }

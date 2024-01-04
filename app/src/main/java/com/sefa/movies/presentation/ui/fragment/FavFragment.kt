@@ -17,22 +17,21 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sefa.movies.R
-import com.sefa.movies.databinding.FragmentMainBinding
+import com.sefa.movies.databinding.FragmentFavBinding
 import com.sefa.movies.domain.model.Movie
 import com.sefa.movies.presentation.ui.adapter.LoaderStateAdapter
 import com.sefa.movies.presentation.ui.adapter.PagingMovieAdapter
-import com.sefa.movies.presentation.viewmodel.MainViewModel
+import com.sefa.movies.presentation.viewmodel.FavViewModel
 import com.sefa.movies.utils.Gone
 import com.sefa.movies.utils.Visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
 @AndroidEntryPoint
-class MainFragment : Fragment(){
+class FavFragment : Fragment() {
 
-    private lateinit var binding: FragmentMainBinding
-    private val viewModel : MainViewModel by viewModels()
+    private lateinit var binding: FragmentFavBinding
+    private val viewModel : FavViewModel by viewModels()
     private lateinit var moviePagingMovieAdapter: PagingMovieAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,15 +41,16 @@ class MainFragment : Fragment(){
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View{
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_main,container,false)
+    ): View? {
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_fav,container,false)
         setupRV()
         return binding.root
     }
+
     private fun setupRV()
     {
         moviePagingMovieAdapter = PagingMovieAdapter{
-           onItemSelected(it)
+            onItemSelected(it)
         }
 
         binding.rv.apply {
@@ -58,18 +58,16 @@ class MainFragment : Fragment(){
                 footer = LoaderStateAdapter { moviePagingMovieAdapter.retry() }
             )
             adapter = moviePagingAdapter
-            layoutManager =LinearLayoutManager(context)
+            layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
         }
 
         observeMovies()
-        goToFavFragment()
     }
 
     private fun observeMovies()
     {
         viewLifecycleOwner.lifecycleScope.launch {
-
             repeatOnLifecycle(Lifecycle.State.STARTED) {
 
                 moviePagingMovieAdapter.addLoadStateListener { loadState ->
@@ -111,20 +109,12 @@ class MainFragment : Fragment(){
     fun onItemSelected(movie: Movie)
     {
         Log.e("TAG",movie.title)
-        val action : NavDirections = MainFragmentDirections.fromMaintoDetails(movie)
-       findNavController().navigate(action)
+        val action : NavDirections = FavFragmentDirections.fromFavToDetails(movie)
+        findNavController().navigate(action)
     }
 
     private fun handleError(error: String?)
     {
         Toast.makeText(context, error ?: "Ooops, error loading data!", Toast.LENGTH_LONG).show()
-    }
-
-    private fun goToFavFragment()
-    {
-        binding.textViewFav.setOnClickListener {
-            val action : NavDirections = MainFragmentDirections.fromMainToFav()
-            findNavController().navigate(action)
-        }
     }
 }
