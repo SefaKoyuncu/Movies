@@ -20,6 +20,13 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/fromMainToFav"
+            app:destination="@id/favFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
@@ -29,5 +36,14 @@
         <argument
             android:name="movie"
             app:argType="com.sefa.movies.domain.model.Movie" />
+    </fragment>
+    <fragment
+        android:id="@+id/favFragment"
+        android:name="com.sefa.movies.presentation.ui.fragment.FavFragment"
+        android:label="FavFragment"
+        tools:layout="@layout/fragment_fav">
+        <action
+            android:id="@+id/fromFavToDetails"
+            app:destination="@id/detailsFragment" />
     </fragment>
 </navigation>
