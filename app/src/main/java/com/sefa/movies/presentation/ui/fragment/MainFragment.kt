@@ -12,11 +12,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import androidx.paging.filter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sefa.movies.R
 import com.sefa.movies.databinding.FragmentMainBinding
@@ -65,6 +63,7 @@ class MainFragment : Fragment(){
         }
 
         observeMovies()
+        goToFavFragment()
     }
 
     private fun observeMovies()
@@ -82,7 +81,23 @@ class MainFragment : Fragment(){
                             binding.progressBar.Gone()
                             handleError(refreshState.error.message.toString()) }
 
-                        is LoadState.NotLoading -> binding.progressBar.Gone()
+                        is LoadState.NotLoading -> {
+                            binding.progressBar.Gone()
+
+                            if ( loadState.append.endOfPaginationReached )
+                            {
+                                if (moviePagingMovieAdapter.itemCount < 1)
+                                {
+                                    binding.textViewNoData.Visible()
+                                    binding.rv.Gone()
+                                }
+                                else
+                                {
+                                    binding.textViewNoData.Gone()
+                                    binding.rv.Visible()
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -93,7 +108,8 @@ class MainFragment : Fragment(){
         }
     }
 
-    fun onItemSelected(movie: Movie) {
+    fun onItemSelected(movie: Movie)
+    {
         Log.e("TAG",movie.title)
         val action : NavDirections = MainFragmentDirections.fromMaintoDetails(movie)
        findNavController().navigate(action)
@@ -102,5 +118,13 @@ class MainFragment : Fragment(){
     private fun handleError(error: String?)
     {
         Toast.makeText(context, error ?: "Ooops, error loading data!", Toast.LENGTH_LONG).show()
+    }
+
+    private fun goToFavFragment()
+    {
+        binding.textViewFav.setOnClickListener {
+            val action : NavDirections = MainFragmentDirections.fromMainToFav()
+            findNavController().navigate(action)
+        }
     }
 }
