@@ -1,5 +1,6 @@
 package com.sefa.movies.data.datasources.local
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -17,4 +18,7 @@ interface MovieDAO
 
     @Query("SELECT EXISTS (SELECT 1 FROM movies WHERE id = :movieID) AS RESULT")
     suspend fun isMovieExist(movieID: Int): Boolean
+
+    @Query("SELECT * FROM movies")
+    fun getAllMovies(): PagingSource<Int, Movie>
 }

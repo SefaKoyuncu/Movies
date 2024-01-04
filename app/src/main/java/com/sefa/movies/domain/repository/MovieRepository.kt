@@ -14,4 +14,5 @@ interface MovieRepository
 
     suspend fun deleteFromDb(movieID: Int)
 
+    suspend fun getAllMoviesFromDb() : Flow<PagingData<Movie>>
 }

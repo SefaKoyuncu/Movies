@@ -47,4 +47,13 @@ class MovieRepositoryImpl
     {
         movieDAO.deleteMovie(movieID=movieID)
     }
+
+    override suspend fun getAllMoviesFromDb(): Flow<PagingData<Movie>>
+    {
+        return Pager(
+            config = PagingConfig( pageSize = DEFAULT_PAGE_SIZE,prefetchDistance = PREFETCH_DISTANCE),
+            pagingSourceFactory = {movieDAO.getAllMovies()}
+        ).flow
+            .flowOn(Dispatchers.IO)
+    }
 }
