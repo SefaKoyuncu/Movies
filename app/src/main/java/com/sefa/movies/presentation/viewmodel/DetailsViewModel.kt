@@ -1,6 +1,5 @@
 package com.sefa.movies.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sefa.movies.domain.model.Movie
@@ -29,7 +28,6 @@ constructor(private val getIsMovieExistInDb: GetIsMovieExistInDbUseCase,
         viewModelScope.launch {
             getIsMovieExistInDb.invoke(movieID=movieID)
                 .collect{ exist->
-                    Log.e("TAG", "vm-$exist")
                     isMovieExistInDb_.value = exist
                 }
         }

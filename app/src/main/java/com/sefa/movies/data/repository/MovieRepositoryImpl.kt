@@ -1,6 +1,5 @@
 package com.sefa.movies.data.repository
 
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -34,7 +33,7 @@ class MovieRepositoryImpl
     {
         return flow {
             emit(movieDAO.isMovieExist(movieID = movieID))
-            Log.e("TAG","repo:"+movieDAO.isMovieExist(movieID = movieID).toString())
+           // Log.e("TAG","repo:"+movieDAO.isMovieExist(movieID = movieID).toString())
         }.flowOn(Dispatchers.IO)
     }
 
