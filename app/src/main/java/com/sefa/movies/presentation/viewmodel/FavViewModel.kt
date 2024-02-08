@@ -25,7 +25,7 @@ constructor(private val getAllMoviesFromDbUseCase: GetAllMoviesFromDbUseCase) : 
         observeMovies()
     }
 
-    private fun observeMovies()
+    fun observeMovies()
     {
         viewModelScope.launch {
             getAllMoviesFromDbUseCase.invoke()
