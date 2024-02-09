@@ -116,6 +116,9 @@ dependencies {
     testImplementation "io.mockk:mockk:1.13.9"
     androidTestImplementation "androidx.arch.core:core-testing:2.2.0"
     testImplementation "androidx.arch.core:core-testing:2.2.0"
+
+    //LeakCanary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:3.0-alpha-1'
 }
 
 kapt {
