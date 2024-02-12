@@ -25,9 +25,6 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 class MovieRepositoryImplTest {
 
-    @get:Rule
-    var instantTaskExecutorRule = InstantTaskExecutorRule()
-
     private lateinit var movieService: MovieService
     private lateinit var movieDAO: MovieDAO
     private lateinit var movieRepository : MovieRepository
