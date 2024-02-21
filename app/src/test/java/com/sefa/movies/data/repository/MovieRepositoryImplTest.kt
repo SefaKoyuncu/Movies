@@ -1,4 +1,3 @@
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.PagingData
 import com.sefa.movies.data.datasources.local.MovieDAO
 import com.sefa.movies.data.datasources.remote.service.MovieService
@@ -18,7 +17,6 @@ import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertTrue
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 
 
