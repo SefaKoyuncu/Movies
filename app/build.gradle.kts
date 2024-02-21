@@ -52,71 +52,72 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.android.material)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.junit.ktx)
 
     // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation(libs.retrofit)
+    implementation(libs.gson)
 
     // HttpClient
-    implementation("com.squareup.okhttp3:okhttp:4.11.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.7.2")
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
 
     // Room
-    implementation("androidx.room:room-runtime:2.6.1")
-    ksp("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
-    implementation("androidx.room:room-paging:2.6.1")
+    implementation(libs.room.runtime)
+    ksp(libs.room.ksp)
+    implementation(libs.room.ktx)
+    implementation(libs.room.paging)
+    annotationProcessor(libs.room.annotationProcessor)
 
     // Navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
+    implementation(libs.navigation.fragment.ktx)
+    implementation(libs.navigation.ui.ktx)
 
     // Dagger-Hilt
-    implementation("com.google.dagger:hilt-android:2.50")
-    ksp("com.google.dagger:hilt-compiler:2.50")
+    implementation(libs.hilt)
+    ksp(libs.hilt.ksp)
 
     // ViewModel-LiveData
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
-    implementation("androidx.activity:activity-ktx:1.8.2")
-    implementation("androidx.lifecycle:lifecycle-common-java8:2.7.0")
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.lifecycle.livedata.ktx)
+    implementation(libs.activity.ktx)
+    implementation(libs.lifecycle.common.java8)
+    implementation(libs.lifecycle.viewmodel.savedstate)
+
 
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
+    implementation(libs.coroutines.core)
+    implementation(libs.coroutines.android)
+    testImplementation(libs.coroutines.test)
 
     // Coil
-    implementation("io.coil-kt:coil:2.4.0")
+    implementation(libs.coil)
 
     // Paging3
-    implementation("androidx.paging:paging-runtime:3.2.1")
-
-    // Test
-    testImplementation("androidx.arch.core:core-testing:2.2.0")
-    testImplementation("app.cash.turbine:turbine:0.11.0")
-    testImplementation("org.mockito:mockito-core:3.4.6")
-    testImplementation("org.mockito:mockito-inline:2.8.47")
-    testImplementation("com.google.truth:truth:1.1.3")
-    androidTestImplementation("com.google.truth:truth:1.1.3")
-    androidTestImplementation("androidx.test:runner:1.5.2")
-    androidTestImplementation("androidx.test:rules:1.5.0")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("android.arch.core:core-testing:1.1.1")
-    implementation("androidx.test.ext:junit-ktx:1.1.5")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation("androidx.test:core:1.5.0")
-    testImplementation("io.mockk:mockk:1.13.9")
-    androidTestImplementation("androidx.arch.core:core-testing:2.2.0")
-    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    implementation(libs.paging)
 
     // LeakCanary
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:3.0-alpha-1")
+    debugImplementation(libs.leakcanary)
+
+    // Test
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.turbine)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.inline)
+    testImplementation(libs.mockk)
+    testImplementation(libs.truth)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.truth)
+    androidTestImplementation(libs.androidx.core.testing)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.rules)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.android.core.testing)
+    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.androidx.test.core)
 }
