@@ -15,6 +15,9 @@
 - R8
 - Coil
 - Extensions
+- Version Catalog
+- Ksp
+- Gradle Kotlin Dsl
 - Unit Test
   + JUnit
   + Turbine
