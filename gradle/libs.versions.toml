@@ -41,6 +41,11 @@ rules = "1.5.0"
 android-core-testing = "1.1.1"
 espresso-core = "3.5.1"
 androidx-test-core = "1.5.0"
+android-gradle = "8.0.2"
+kotlin = "1.9.21"
+safeargs = "2.5.1"
+ksp = "1.9.21-1.0.16"
+
 
 
 [libraries]
@@ -59,8 +64,8 @@ room-ksp = { module = "androidx.room:room-compiler", version.ref = "room-compile
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room-ktx"}
 room-paging = { module = "androidx.room:room-paging", version.ref = "room-paging"}
 room-annotationProcessor = { module = "androidx.room:room-compiler", version.ref = "room-compiler"}
-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation-fragment-ktx"}
 navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation-ui-ktx"}
+navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation-fragment-ktx"}
 hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt"}
 hilt-ksp = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt-ksp"}
 lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle-viewmodel-ktx"}
@@ -84,16 +89,35 @@ truth = { module = "com.google.truth:truth", version.ref = "truth"}
 junit = { module = "junit:junit", version.ref = "ext-junit"}
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "runner"}
 androidx-test-rules = { module = "androidx.test:rules", version.ref = "rules"}
+androidx-test-core = { module = "androidx.test:core", version.ref = "androidx-test-core"}
 androidx-test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "junit"}
 android-core-testing = { module = "android.arch.core:core-testing", version.ref = "android-core-testing"}
 espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso-core"}
-androidx-test-core = { module = "androidx.test:core", version.ref = "androidx-test-core"}
 
 
 
 [plugins]
 
+android-application = { id = "com.android.application", version.ref = "android-gradle" }
+android-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "safeargs" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+library = { id = "com.android.library", version.ref = "android-gradle" }
+
+
+
 [bundles]
 
+retrofit = ["retrofit","gson"]
+okhttp = ["okhttp","okhttp-logging"]
+room = ["room-runtime","room-paging","room-ktx"]
+navigation = ["navigation-ui-ktx", "navigation-fragment-ktx"]
+viewmodel = ["lifecycle-viewmodel-ktx", "lifecycle-viewmodel-savedstate"]
+lifecycle = ["lifecycle-common-java8","lifecycle-livedata-ktx","lifecycle-runtime-ktx","activity-ktx"]
+coroutine = ["coroutines-android", "coroutines-core"]
+mockito = ["mockito-core","mockito-inline"]
+androidx-android-test = ["androidx-test-runner","androidx-test-rules","androidx-test-core"]
 
 

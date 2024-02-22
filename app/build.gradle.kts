@@ -1,12 +1,12 @@
 import java.util.Properties
 
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    id("com.google.dagger.hilt.android")
-    id("kotlin-parcelize")
-    id("androidx.navigation.safeargs.kotlin")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.kotlin)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.navigation.safeargs)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -59,40 +59,29 @@ dependencies {
     implementation(libs.junit.ktx)
 
     // Retrofit
-    implementation(libs.retrofit)
-    implementation(libs.gson)
+    implementation(libs.bundles.retrofit)
 
     // HttpClient
-    implementation(libs.okhttp)
-    implementation(libs.okhttp.logging)
+    implementation(libs.bundles.okhttp)
 
     // Room
-    implementation(libs.room.runtime)
-    ksp(libs.room.ksp)
-    implementation(libs.room.ktx)
-    implementation(libs.room.paging)
+    implementation(libs.bundles.room)
     annotationProcessor(libs.room.annotationProcessor)
+    ksp(libs.room.ksp)
 
     // Navigation
-    implementation(libs.navigation.fragment.ktx)
-    implementation(libs.navigation.ui.ktx)
+    implementation(libs.bundles.navigation)
 
     // Dagger-Hilt
     implementation(libs.hilt)
     ksp(libs.hilt.ksp)
 
     // ViewModel-LiveData
-    implementation(libs.lifecycle.viewmodel.ktx)
-    implementation(libs.lifecycle.runtime.ktx)
-    implementation(libs.lifecycle.livedata.ktx)
-    implementation(libs.activity.ktx)
-    implementation(libs.lifecycle.common.java8)
-    implementation(libs.lifecycle.viewmodel.savedstate)
-
+    implementation(libs.bundles.viewmodel)
+    implementation(libs.bundles.lifecycle)
 
     // Coroutines
-    implementation(libs.coroutines.core)
-    implementation(libs.coroutines.android)
+    implementation(libs.bundles.coroutine)
     testImplementation(libs.coroutines.test)
 
     // Coil
@@ -107,17 +96,14 @@ dependencies {
     // Test
     testImplementation(libs.androidx.core.testing)
     testImplementation(libs.turbine)
-    testImplementation(libs.mockito.core)
-    testImplementation(libs.mockito.inline)
+    testImplementation(libs.bundles.mockito)
     testImplementation(libs.mockk)
     testImplementation(libs.truth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.truth)
     androidTestImplementation(libs.androidx.core.testing)
-    androidTestImplementation(libs.androidx.test.runner)
-    androidTestImplementation(libs.androidx.test.rules)
+    androidTestImplementation(libs.bundles.androidx.android.test)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.android.core.testing)
     androidTestImplementation(libs.espresso.core)
-    androidTestImplementation(libs.androidx.test.core)
 }
