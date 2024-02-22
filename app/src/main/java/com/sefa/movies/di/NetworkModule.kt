@@ -9,12 +9,6 @@ import com.sefa.movies.data.datasources.local.MovieDatabase
 import com.sefa.movies.data.datasources.remote.interceptor.AuthInterceptor
 import com.sefa.movies.data.datasources.remote.service.MovieService
 import com.sefa.movies.data.mapper.MovieMapper
-import com.sefa.movies.data.repository.MovieRepositoryImpl
-import com.sefa.movies.domain.repository.MovieRepository
-import com.sefa.movies.domain.usecase.DeleteMovieFromDbUseCase
-import com.sefa.movies.domain.usecase.GetIsMovieExistInDbUseCase
-import com.sefa.movies.domain.usecase.InsertMovieToDbUseCase
-import com.sefa.movies.presentation.viewmodel.DetailsViewModel
 import com.sefa.movies.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -28,7 +22,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule
+object NetworkModule
 {
     @Provides
     fun provideBaseURL() = Constants.BASE_URL
@@ -37,7 +31,7 @@ object AppModule
     fun provideHTTPLoggingInterceptor(): HttpLoggingInterceptor {
         val interceptor = HttpLoggingInterceptor()
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-        return interceptor;
+        return interceptor
     }
 
     @Provides
@@ -65,15 +59,6 @@ object AppModule
         return MovieMapper()
     }
 
-    @Singleton
-    @Provides
-    fun provideMovieRepository(
-        movieService: MovieService,
-        movieDAO: MovieDAO
-    ): MovieRepository {
-        return MovieRepositoryImpl(movieService,movieDAO)
-    }
-
     @Provides
     @Singleton
     fun provideDatabase(context: Context) : MovieDatabase
@@ -93,33 +78,5 @@ object AppModule
     @Singleton
     fun provideApplicationContext(application: Application): Context {
         return application.applicationContext
-    }
-
-    @Provides
-    @Singleton
-    fun provideGetIsMovieExistInDbUseCase(movieRepository: MovieRepository): GetIsMovieExistInDbUseCase
-        = GetIsMovieExistInDbUseCase(movieRepository)
-
-    @Provides
-    @Singleton
-    fun provideInsertMovieToDbUseCase(movieRepository: MovieRepository): InsertMovieToDbUseCase
-        = InsertMovieToDbUseCase(movieRepository)
-
-    @Provides
-    @Singleton
-    fun provideDeleteMovieFromDbUseCase(movieRepository: MovieRepository): DeleteMovieFromDbUseCase
-        = DeleteMovieFromDbUseCase(movieRepository)
-
-    @Provides
-    fun provideDetailsViewModel(
-        getIsMovieExistInDb: GetIsMovieExistInDbUseCase,
-        insertMovieToDbUseCase: InsertMovieToDbUseCase,
-        deleteMovieFromDbUseCase: DeleteMovieFromDbUseCase
-    ): DetailsViewModel {
-        return DetailsViewModel(
-            getIsMovieExistInDb,
-            insertMovieToDbUseCase,
-            deleteMovieFromDbUseCase
-        )
     }
 }
