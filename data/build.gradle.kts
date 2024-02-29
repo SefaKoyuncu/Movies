@@ -1,26 +1,20 @@
 import java.util.Properties
 
 plugins {
-    alias(libs.plugins.android.application)
     alias(libs.plugins.android.kotlin)
-    alias(libs.plugins.hilt)
-    alias(libs.plugins.kotlin.parcelize)
-    alias(libs.plugins.navigation.safeargs)
+    alias(libs.plugins.library)
     alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "com.sefa.movies"
+    namespace = "com.sefa.data"
     compileSdk = libs.versions.compile.sdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.sefa.movies"
-        minSdk =  libs.versions.min.sdk.get().toInt()
-        targetSdk = libs.versions.target.sdk.get().toInt()
-        versionCode = libs.versions.version.code.get().toInt()
-        versionName = libs.versions.version.name.get()
+        minSdk = libs.versions.min.sdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
 
         val properties = Properties()
         properties.load(project.rootProject.file("local.properties").inputStream())
@@ -29,15 +23,16 @@ android {
     }
 
     buildFeatures {
-        dataBinding = true
         buildConfig = true
     }
 
     buildTypes {
-        getByName("release") {
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -54,15 +49,8 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.android.material)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.junit.ktx)
 
-    implementation(project(":data"))
     implementation(project(":domain"))
-    implementation(project(":feature-details"))
-    implementation(project(":feature-fav"))
-    implementation(project(":feature-main"))
-    implementation(project(":common-ui"))
 
     // Retrofit
     implementation(libs.bundles.retrofit)
@@ -75,30 +63,13 @@ dependencies {
     annotationProcessor(libs.room.annotationProcessor)
     ksp(libs.room.ksp)
 
-    // Navigation
-    implementation(libs.bundles.navigation)
-
-    // Dagger-Hilt
-    implementation(libs.hilt)
-    ksp(libs.hilt.ksp)
-
-    // ViewModel-LiveData
-    implementation(libs.bundles.viewmodel)
-    implementation(libs.bundles.lifecycle)
-
     // Coroutines
     implementation(libs.bundles.coroutine)
-    testImplementation(libs.coroutines.test)
-
-    // Coil
-    implementation(libs.coil)
 
     // Paging3
     implementation(libs.paging)
 
-    // LeakCanary
-    debugImplementation(libs.leakcanary)
-
+    // Testing
     // Test
     testImplementation(libs.androidx.core.testing)
     testImplementation(libs.turbine)
