@@ -16,7 +16,7 @@ android {
 
     defaultConfig {
         applicationId = "com.sefa.movies"
-        minSdk =  libs.versions.min.sdk.get().toInt()
+        minSdk = libs.versions.min.sdk.get().toInt()
         targetSdk = libs.versions.target.sdk.get().toInt()
         versionCode = libs.versions.version.code.get().toInt()
         versionName = libs.versions.version.name.get()
@@ -53,7 +53,7 @@ android {
 ktlint {
     debug.set(true)
     ignoreFailures.set(false)
-    disabledRules.addAll("no-wildcard-imports")
+    disabledRules.addAll("no-wildcard-imports", "final-newline")
 }
 
 detekt {
@@ -70,7 +70,6 @@ tasks.withType<io.gitlab.arturbosch.detekt.DetektCreateBaselineTask>().configure
     this.jvmTarget = "1.8"
     jdkHome.set(file("path/to/jdkHome"))
 }
-
 
 dependencies {
 

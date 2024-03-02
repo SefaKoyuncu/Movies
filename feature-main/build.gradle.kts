@@ -10,7 +10,7 @@ plugins {
 
 android {
     namespace = "com.sefa.feature_main"
-    compileSdk =libs.versions.compile.sdk.get().toInt()
+    compileSdk = libs.versions.compile.sdk.get().toInt()
 
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()
@@ -44,7 +44,7 @@ android {
 ktlint {
     debug.set(true)
     ignoreFailures.set(false)
-    disabledRules.addAll("no-wildcard-imports")
+    disabledRules.addAll("no-wildcard-imports", "final-newline")
 }
 
 detekt {

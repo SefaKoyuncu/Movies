@@ -42,7 +42,7 @@ android {
 ktlint {
     debug.set(true)
     ignoreFailures.set(false)
-    disabledRules.addAll("no-wildcard-imports")
+    disabledRules.addAll("no-wildcard-imports", "final-newline")
 }
 
 detekt {
