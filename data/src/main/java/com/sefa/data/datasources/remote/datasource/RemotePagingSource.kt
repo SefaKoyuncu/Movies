@@ -1,43 +1,44 @@
-package com.sefa.movies.data.datasources.remote.datasource
+package com.sefa.data.datasources.remote.datasource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.sefa.movies.data.datasources.remote.service.MovieService
-import com.sefa.movies.data.mapper.MovieMapper
-import com.sefa.movies.domain.model.Movie
-import com.sefa.movies.utils.Constants.DEFAULT_PAGE_INDEX
+import com.sefa.data.util.Constants.DEFAULT_PAGE_INDEX
+import com.sefa.data.datasources.remote.service.MovieService
+import com.sefa.data.mapper.asMovies
+import com.sefa.domain.model.SingleMovie
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class MoviesPagingSource
+class RemotePagingSource
 @Inject
-constructor(private val movieService: MovieService) : PagingSource<Int,Movie>()
+constructor(private val movieService: MovieService) : PagingSource<Int,SingleMovie>()
 {
-    @Inject
-    lateinit var movieMapper: MovieMapper
 
-    override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, SingleMovie>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SingleMovie> {
          return try {
             val nextPageNumber = params.key ?: DEFAULT_PAGE_INDEX
             val response = movieService.getPopularMovies(page = nextPageNumber)
             if (response.isSuccessful)
             {
-                val results = response.body()?.results
-                movieMapper = MovieMapper()
-                val movies = results?.let { movieMapper.mapMovieResponseToDomain(it) } ?: emptyList()
+                if (response.body()?.results.isNullOrEmpty())
+                {
+                    return LoadResult.Error(Exception("Ooops, error loading data!"))
+                }
+
+                val results = response.asMovies().body()?.results ?: emptyList()
 
                 LoadResult.Page(
-                    data = movies,
+                    data = results,
                     prevKey = if (nextPageNumber == DEFAULT_PAGE_INDEX) null else nextPageNumber - 1,
-                    nextKey = if (movies.isEmpty()) null else nextPageNumber + 1
+                    nextKey = if (results.isEmpty()) null else nextPageNumber + 1
                 )
             }
             else

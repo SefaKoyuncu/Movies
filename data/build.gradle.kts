@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.android.kotlin)
     alias(libs.plugins.library)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
@@ -28,7 +29,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -69,8 +70,10 @@ dependencies {
     // Paging3
     implementation(libs.paging)
 
+    //Inject
+    implementation(libs.inject)
+
     // Testing
-    // Test
     testImplementation(libs.androidx.core.testing)
     testImplementation(libs.turbine)
     testImplementation(libs.bundles.mockito)

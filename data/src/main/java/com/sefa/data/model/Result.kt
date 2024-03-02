@@ -1,4 +1,4 @@
-package com.sefa.movies.data.model
+package com.sefa.data.model
 
 data class Result(
     val adult: Boolean,
