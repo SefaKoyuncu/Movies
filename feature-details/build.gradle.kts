@@ -22,7 +22,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -45,9 +45,10 @@ dependencies {
     implementation(libs.android.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.junit.ktx)
+    implementation(libs.fragment)
 
-    implementation(project(":feature-fav"))
-    implementation(project(":feature-main"))
+    implementation(project(":common-ui"))
+    implementation(project(":domain"))
 
     // Coil
     implementation(libs.coil)
@@ -58,6 +59,9 @@ dependencies {
 
     // Coroutines
     implementation(libs.bundles.coroutine)
+
+    // Navigation
+    implementation(libs.bundles.navigation)
 
     // Test
     testImplementation(libs.androidx.core.testing)

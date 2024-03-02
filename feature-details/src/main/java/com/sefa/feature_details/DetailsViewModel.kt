@@ -1,14 +1,15 @@
-package com.sefa.movies.presentation.viewmodel
+package com.sefa.feature_details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sefa.movies.domain.model.Movie
-import com.sefa.movies.domain.usecase.DeleteMovieFromDbUseCase
-import com.sefa.movies.domain.usecase.GetIsMovieExistInDbUseCase
-import com.sefa.movies.domain.usecase.InsertMovieToDbUseCase
+import com.sefa.domain.model.SingleMovie
+import com.sefa.domain.usecase.DeleteMovieFromDbUseCase
+import com.sefa.domain.usecase.GetIsMovieExistInDbUseCase
+import com.sefa.domain.usecase.InsertMovieToDbUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,7 +18,8 @@ class DetailsViewModel
 @Inject
 constructor(private val getIsMovieExistInDb: GetIsMovieExistInDbUseCase,
             private val insertMovieToDbUseCase: InsertMovieToDbUseCase,
-            private val deleteMovieFromDbUseCase: DeleteMovieFromDbUseCase) : ViewModel()
+            private val deleteMovieFromDbUseCase: DeleteMovieFromDbUseCase
+) : ViewModel()
 {
     private val isMovieExistInDb_ = MutableStateFlow<Boolean>(false)
     val getIsMovieExistInDb_: StateFlow<Boolean>
@@ -27,17 +29,17 @@ constructor(private val getIsMovieExistInDb: GetIsMovieExistInDbUseCase,
     {
         viewModelScope.launch {
             getIsMovieExistInDb.invoke(movieID=movieID)
+                .distinctUntilChanged()
                 .collect{ exist->
                     isMovieExistInDb_.value = exist
                 }
         }
     }
 
-    fun insertMovieDb(movie: Movie)
+    fun insertMovieDb(movie: SingleMovie)
     {
         viewModelScope.launch {
             insertMovieToDbUseCase.invoke(movie = movie)
-
         }
     }
 

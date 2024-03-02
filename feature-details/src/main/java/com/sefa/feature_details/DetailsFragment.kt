@@ -1,4 +1,4 @@
-package com.sefa.movies.presentation.ui.fragment
+package com.sefa.feature_details
 
 import android.os.Bundle
 import android.util.Log
@@ -12,23 +12,22 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
-import com.sefa.movies.R
-import com.sefa.movies.databinding.FragmentDetailsBinding
-import com.sefa.movies.domain.model.Movie
-import com.sefa.movies.presentation.viewmodel.DetailsViewModel
-import com.sefa.movies.utils.Constants.BASE_IMAGE_URL
+import com.sefa.domain.model.SingleMovie
+import com.sefa.feature_details.databinding.FragmentDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
+import com.sefa.common_ui.R.drawable.fav
+import com.sefa.common_ui.R.drawable.un_fav
 
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailsBinding
     private val args by navArgs<DetailsFragmentArgs>()
-    private lateinit var movie: Movie
+    private lateinit var movie: SingleMovie
     private val viewModel : DetailsViewModel by viewModels()
     private val isMovieExist = MutableStateFlow<Boolean>(false)
 
@@ -40,7 +39,7 @@ class DetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_details,container,false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_details,container,false)
         movie = args.movie
 
         checkMovie(movie)
@@ -59,9 +58,9 @@ class DetailsFragment : Fragment() {
                 goBackToHome()
             }
             textViewStarNumber.text = decimalFormat.format(movie.vote_average)
-            imageViewMoviePoster.load(BASE_IMAGE_URL + movie.poster_path)
+            imageViewMoviePoster.load(movie.poster_url)
             textViewReleaseDate.text = movie.release_date
-            textViewOverview.text =movie.overview
+            textViewOverview.text = movie.overview
 
             setFavIcon()
 
@@ -84,29 +83,28 @@ class DetailsFragment : Fragment() {
     {
         viewLifecycleOwner.lifecycleScope.launch{
                 isMovieExist.collectLatest{ check ->
-                    binding.imageViewFavIcon.setImageResource(if (check) R.drawable.fav else R.drawable.un_fav)
+                    binding.imageViewFavIcon.setImageResource(if (check) fav else un_fav)
                 }
         }
     }
 
-    private fun manageFav(movie: Movie)
+    private fun manageFav(movie: SingleMovie)
     {
         viewLifecycleOwner.lifecycleScope.launch {
                 Log.e("TAG","manageFav-isMovieExist üstü")
                 isMovieExist.collectLatest{ exist ->
-
                     if (exist)
                         deleteFromRoom(movie.id)
                     else
                         addToRoom(movie)
 
-                    val iconResource = if (exist) R.drawable.un_fav else R.drawable.fav
+                    val iconResource = if (exist) un_fav else fav
                     binding.imageViewFavIcon.setImageResource(iconResource)
                 }
         }
     }
 
-    private fun addToRoom(movie: Movie)
+    private fun addToRoom(movie: SingleMovie)
     {
         viewModel.insertMovieDb(movie=movie)
     }
@@ -116,7 +114,7 @@ class DetailsFragment : Fragment() {
         viewModel.deleteFromDb(movieID=movieID)
     }
 
-    private fun checkMovie(movie: Movie)
+    private fun checkMovie(movie: SingleMovie)
     {
         viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.checkIfMovieExists(movieID = movie.id)
