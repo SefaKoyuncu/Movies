@@ -18,7 +18,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -41,11 +41,6 @@ dependencies {
     implementation(libs.junit.ktx)
     implementation(libs.androidx.test.ext.junit)
 
-    implementation(project(":feature-details"))
-    implementation(project(":feature-fav"))
-    implementation(project(":feature-main"))
-    implementation(project(":common-ui"))
-
     // Room
     implementation(libs.bundles.room)
     annotationProcessor(libs.room.annotationProcessor)
@@ -53,6 +48,9 @@ dependencies {
 
     // Retrofit
     implementation(libs.bundles.retrofit)
+
+    //Inject
+    implementation(libs.inject)
 
     // Test
     testImplementation(libs.androidx.core.testing)
