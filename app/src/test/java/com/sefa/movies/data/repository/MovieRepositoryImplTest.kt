@@ -19,15 +19,13 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
-
 @ExperimentalCoroutinesApi
 class MovieRepositoryImplTest {
 
     private lateinit var movieService: MovieService
     private lateinit var movieDAO: MovieDAO
-    private lateinit var movieRepository : MovieRepository
+    private lateinit var movieRepository: MovieRepository
     private lateinit var movie: Movie
-
 
     @Before
     fun setUp()

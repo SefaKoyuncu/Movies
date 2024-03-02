@@ -26,8 +26,8 @@ class PagingMovieAdapter(private val onItemClicked: (SingleMovie) -> Unit) : Pag
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int)
     {
-        lateinit var movie : SingleMovie
-        getItem(position)?.let {movie=it}
+        lateinit var movie: SingleMovie
+        getItem(position)?.let{ movie = it }
 
         val decimalFormat = DecimalFormat("#.#")
 
@@ -47,7 +47,7 @@ class PagingMovieAdapter(private val onItemClicked: (SingleMovie) -> Unit) : Pag
                 onItemClicked(movie)
             }*/
 
-            root.setOnClickListener{
+            root.setOnClickListener {
                 onItemClicked(movie)
             }
         }

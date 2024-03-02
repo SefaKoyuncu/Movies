@@ -27,15 +27,15 @@ object DataModule
     fun provideBaseURL() = Constants.BASE_URL
 
     @Provides
-    fun provideHTTPLoggingInterceptor() : HttpLoggingInterceptor {
+    fun provideHTTPLoggingInterceptor(): HttpLoggingInterceptor {
         val interceptor = HttpLoggingInterceptor()
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         return interceptor
     }
 
     @Provides
-    fun provideOkHttpClient(loggingInterceptor : HttpLoggingInterceptor
-    ): OkHttpClient {
+    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient
+    {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .addInterceptor(AuthInterceptor(BuildConfig.API_KEY))
@@ -44,7 +44,7 @@ object DataModule
 
     @Provides
     @Singleton
-    fun provideRetrofitInstance(BASE_URL : String, okHttpClient: OkHttpClient) : MovieService =
+    fun provideRetrofitInstance(BASE_URL: String, okHttpClient: OkHttpClient): MovieService =
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -54,22 +54,22 @@ object DataModule
 
     @Provides
     @Singleton
-    fun provideDatabase(context: Context) : MovieDatabase
+    fun provideDatabase(context: Context): MovieDatabase
     {
         return Room.databaseBuilder(
             context,
-            MovieDatabase::class.java,"MovieDatabase")
+            MovieDatabase::class.java, "MovieDatabase")
             .build()
     }
 
     @Provides
     @Singleton
-    fun provideCountryDao(database: MovieDatabase) : MovieDAO =
+    fun provideCountryDao(database: MovieDatabase): MovieDAO =
         database.movieDao()
 
     @Provides
     @Singleton
-    fun provideApplicationContext(application: Application) : Context {
+    fun provideApplicationContext(application: Application): Context {
         return application.applicationContext
     }
 }

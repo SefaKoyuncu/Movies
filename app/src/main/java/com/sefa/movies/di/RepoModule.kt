@@ -20,6 +20,6 @@ object RepoModule
         movieService: MovieService,
         movieDAO: MovieDAO
     ) : MovieGateway {
-        return MovieRepository(movieService,movieDAO)
+        return MovieRepository(movieService, movieDAO)
     }
 }

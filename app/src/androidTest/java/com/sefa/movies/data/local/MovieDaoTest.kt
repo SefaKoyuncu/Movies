@@ -30,7 +30,7 @@ class MovieDaoTest
         ).allowMainThreadQueries().build()
 
         movieDao = database.movieDao()
-        movie = Movie(1,"title1","01.01.2001",1.1,"poster1","overview1")
+        movie = Movie(1, "title1", "01.01.2001", 1.1, "poster1", "overview1")
     }
 
     @After
@@ -45,7 +45,7 @@ class MovieDaoTest
         movieDao.upsertMovie(movie)
         val isContains = movieDao.isMovieExist(movie.id)
 
-        //Then
+        // Then
         assertThat(isContains).isTrue()
     }
 
