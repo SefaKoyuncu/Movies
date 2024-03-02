@@ -1,4 +1,4 @@
-package com.sefa.movies.utils
+package com.sefa.common_ui.utils
 
 import android.view.View
 

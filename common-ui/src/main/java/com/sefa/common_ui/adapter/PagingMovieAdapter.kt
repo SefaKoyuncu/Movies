@@ -1,4 +1,4 @@
-package com.sefa.movies.presentation.ui.adapter
+package com.sefa.common_ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,19 +6,18 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.sefa.movies.databinding.CardMovieBinding
-import com.sefa.movies.domain.model.Movie
-import com.sefa.movies.utils.Constants.BASE_IMAGE_URL
+import com.sefa.common_ui.databinding.CardMovieBinding
+import com.sefa.domain.model.SingleMovie
 import java.text.DecimalFormat
 
-class PagingMovieAdapter(private val onItemClicked: (Movie) -> Unit) : PagingDataAdapter<Movie, PagingMovieAdapter.MovieViewHolder>(MOVIE_COMPARATOR)
+class PagingMovieAdapter(private val onItemClicked: (SingleMovie) -> Unit) : PagingDataAdapter<SingleMovie, PagingMovieAdapter.MovieViewHolder>(MOVIE_COMPARATOR)
 {
     companion object {
-        private val MOVIE_COMPARATOR = object : DiffUtil.ItemCallback<Movie>() {
-            override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean =
+        private val MOVIE_COMPARATOR = object : DiffUtil.ItemCallback<SingleMovie>() {
+            override fun areItemsTheSame(oldItem: SingleMovie, newItem: SingleMovie): Boolean =
                 oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean =
+            override fun areContentsTheSame(oldItem: SingleMovie, newItem: SingleMovie): Boolean =
                 oldItem == newItem
         }
     }
@@ -27,7 +26,7 @@ class PagingMovieAdapter(private val onItemClicked: (Movie) -> Unit) : PagingDat
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int)
     {
-        lateinit var movie : Movie
+        lateinit var movie : SingleMovie
         getItem(position)?.let {movie=it}
 
         val decimalFormat = DecimalFormat("#.#")
@@ -42,7 +41,7 @@ class PagingMovieAdapter(private val onItemClicked: (Movie) -> Unit) : PagingDat
             textViewMovieName.text = truncatedText
             textViewReleasedDate.text = movie.release_date
             textViewStarNumber.text = decimalFormat.format(movie.vote_average)
-            imageViewMovie.load(BASE_IMAGE_URL + movie.poster_path)
+            imageViewMovie.load(movie.poster_url)
 
            /* imageViewFavIcon.setOnClickListener {
                 onItemClicked(movie)
@@ -64,6 +63,6 @@ class PagingMovieAdapter(private val onItemClicked: (Movie) -> Unit) : PagingDat
     }
 
     interface Interaction {
-        fun onItemSelected(position: Int, item: Movie)
+        fun onItemSelected(position: Int, item: SingleMovie)
     }
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="gray">#EEEEEE</color>
+    <color name="colorDarkSemiTransparent">#C6000000</color>
+    <color name="titleColor">#C6000000</color>
+    <color name="roundedRvColor">@color/gray</color>
+    <color name="cardBackgroundColor">@color/white</color>
+    <color name="cardMovieNameColor">@color/black</color>
+    <color name="starColor">#F1C644</color>
+    <color name="orange">#FF5722 </color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="content_scrim">@color/black</color>
+    <color name="release_date">#4E4E4E</color>
+</resources>

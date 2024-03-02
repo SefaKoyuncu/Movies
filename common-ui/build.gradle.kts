@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.library)
     alias(libs.plugins.android.kotlin)
+    alias(libs.plugins.navigation.safeargs)
 }
 
 android {
@@ -20,7 +21,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -44,13 +45,14 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.junit.ktx)
 
-    implementation(project(":feature-details"))
-    implementation(project(":feature-fav"))
-    implementation(project(":feature-main"))
+    implementation(project(":domain"))
 
     // Paging3
     implementation(libs.paging)
 
     // Coil
     implementation(libs.coil)
+
+    // Navigation
+    implementation(libs.bundles.navigation)
 }

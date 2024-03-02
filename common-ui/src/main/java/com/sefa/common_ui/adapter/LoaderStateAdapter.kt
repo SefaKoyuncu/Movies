@@ -1,4 +1,4 @@
-package com.sefa.movies.presentation.ui.adapter
+package com.sefa.common_ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.sefa.movies.databinding.LoaderStateItemBinding
+import com.sefa.common_ui.databinding.LoaderStateItemBinding
 
 class LoaderStateAdapter(private val retry: () -> Unit) :
     LoadStateAdapter<LoaderStateAdapter.LoaderStateViewHolder>() {
