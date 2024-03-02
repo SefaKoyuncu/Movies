@@ -1,9 +1,9 @@
 package com.sefa.movies.di
 
-import com.sefa.movies.data.datasources.local.MovieDAO
-import com.sefa.movies.data.datasources.remote.service.MovieService
-import com.sefa.movies.data.repository.MovieRepositoryImpl
-import com.sefa.movies.domain.repository.MovieRepository
+import com.sefa.data.datasources.local.MovieDAO
+import com.sefa.data.datasources.remote.service.MovieService
+import com.sefa.data.repository.MovieRepository
+import com.sefa.domain.gateway.MovieGateway
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,7 +19,7 @@ object RepoModule
     fun provideMovieRepository(
         movieService: MovieService,
         movieDAO: MovieDAO
-    ): MovieRepository {
-        return MovieRepositoryImpl(movieService,movieDAO)
+    ) : MovieGateway {
+        return MovieRepository(movieService,movieDAO)
     }
 }

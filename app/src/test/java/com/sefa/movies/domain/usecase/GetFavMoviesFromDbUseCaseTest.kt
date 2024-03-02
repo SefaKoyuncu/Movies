@@ -12,7 +12,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class GetAllMoviesFromDbUseCaseTest
+class GetFavMoviesFromDbUseCaseTest
 {
     @Test
     fun `invoke should return Flow of PagingData`() = runBlocking {

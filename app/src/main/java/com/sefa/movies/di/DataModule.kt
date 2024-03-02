@@ -3,12 +3,11 @@ package com.sefa.movies.di
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
+import com.sefa.data.datasources.local.MovieDAO
+import com.sefa.data.datasources.local.MovieDatabase
+import com.sefa.data.datasources.remote.interceptor.AuthInterceptor
+import com.sefa.data.datasources.remote.service.MovieService
 import com.sefa.movies.BuildConfig
-import com.sefa.movies.data.datasources.local.MovieDAO
-import com.sefa.movies.data.datasources.local.MovieDatabase
-import com.sefa.movies.data.datasources.remote.interceptor.AuthInterceptor
-import com.sefa.movies.data.datasources.remote.service.MovieService
-import com.sefa.movies.data.mapper.MovieMapper
 import com.sefa.movies.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -22,20 +21,20 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkModule
+object DataModule
 {
     @Provides
     fun provideBaseURL() = Constants.BASE_URL
 
     @Provides
-    fun provideHTTPLoggingInterceptor(): HttpLoggingInterceptor {
+    fun provideHTTPLoggingInterceptor() : HttpLoggingInterceptor {
         val interceptor = HttpLoggingInterceptor()
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         return interceptor
     }
 
     @Provides
-    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor
+    fun provideOkHttpClient(loggingInterceptor : HttpLoggingInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
@@ -53,19 +52,13 @@ object NetworkModule
             .build()
             .create(MovieService::class.java)
 
-    @Singleton
-    @Provides
-    fun provideMovieMapper(): MovieMapper {
-        return MovieMapper()
-    }
-
     @Provides
     @Singleton
     fun provideDatabase(context: Context) : MovieDatabase
     {
         return Room.databaseBuilder(
             context,
-            MovieDatabase::class.java,"CountryDatabase")
+            MovieDatabase::class.java,"MovieDatabase")
             .build()
     }
 
@@ -76,7 +69,7 @@ object NetworkModule
 
     @Provides
     @Singleton
-    fun provideApplicationContext(application: Application): Context {
+    fun provideApplicationContext(application: Application) : Context {
         return application.applicationContext
     }
 }
