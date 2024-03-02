@@ -42,6 +42,7 @@ class FavFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_fav,container,false)
         setupRV()
+        backButtonClicked()
         return binding.root
     }
 
@@ -114,5 +115,17 @@ class FavFragment : Fragment() {
     private fun handleError(error: String?)
     {
         Toast.makeText(context, error ?: "Ooops, error loading data!", Toast.LENGTH_LONG).show()
+    }
+
+    fun goBack()
+    {
+        findNavController().popBackStack()
+    }
+
+    fun backButtonClicked()
+    {
+        binding.imageViewBack.setOnClickListener {
+            goBack()
+        }
     }
 }
