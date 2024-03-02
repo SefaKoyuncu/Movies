@@ -1,4 +1,4 @@
-package com.sefa.movies.presentation.ui.fragment
+package com.sefa.feature_main
 
 import android.os.Bundle
 import android.util.Log
@@ -16,17 +16,14 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sefa.movies.R
-import com.sefa.movies.databinding.FragmentMainBinding
-import com.sefa.movies.domain.model.Movie
-import com.sefa.movies.presentation.ui.adapter.LoaderStateAdapter
-import com.sefa.movies.presentation.ui.adapter.PagingMovieAdapter
-import com.sefa.movies.presentation.viewmodel.MainViewModel
-import com.sefa.movies.utils.Gone
-import com.sefa.movies.utils.Visible
+import com.sefa.common_ui.adapter.LoaderStateAdapter
+import com.sefa.common_ui.adapter.PagingMovieAdapter
+import com.sefa.common_ui.utils.Gone
+import com.sefa.common_ui.utils.Visible
+import com.sefa.domain.model.SingleMovie
+import com.sefa.feature_main.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-
 
 @AndroidEntryPoint
 class MainFragment : Fragment(){
@@ -43,7 +40,7 @@ class MainFragment : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View{
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_main,container,false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main,container,false)
         setupRV()
         return binding.root
     }
@@ -108,7 +105,7 @@ class MainFragment : Fragment(){
         }
     }
 
-    fun onItemSelected(movie: Movie)
+    fun onItemSelected(movie: SingleMovie)
     {
         Log.e("TAG",movie.title)
         val action : NavDirections = MainFragmentDirections.fromMaintoDetails(movie)

@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.android.kotlin)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.navigation.safeargs)
 }
 
 android {
@@ -22,7 +23,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -45,9 +46,10 @@ dependencies {
     implementation(libs.android.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.junit.ktx)
+    implementation(libs.fragment)
 
     implementation(project(":domain"))
-    implementation(project(":feature-details"))
+    implementation(project(":common-ui"))
 
     // Dagger-Hilt
     implementation(libs.hilt)
@@ -58,6 +60,16 @@ dependencies {
 
     // Paging3
     implementation(libs.paging)
+
+    // Retrofit
+    implementation(libs.bundles.retrofit)
+
+    // ViewModel-LiveData
+    implementation(libs.bundles.viewmodel)
+    implementation(libs.bundles.lifecycle)
+
+    // Navigation
+    implementation(libs.bundles.navigation)
 
     // Test
     testImplementation(libs.androidx.core.testing)
