@@ -2,6 +2,7 @@
 
 ## Techs.
 
+- Modular Architecture
 - Clean Architecture
 - MVVM
 - Navigation Component  
