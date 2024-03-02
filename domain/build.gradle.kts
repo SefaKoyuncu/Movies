@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.android.kotlin)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.ktlint)
+    alias(libs.plugins.detekt)
 }
 
 android {
@@ -32,6 +34,27 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+}
+
+ktlint {
+    debug.set(true)
+    ignoreFailures.set(false)
+    disabledRules.addAll("no-wildcard-imports")
+}
+
+detekt {
+    autoCorrect = true
+    buildUponDefaultConfig = true
+    source.setFrom("src/main/java", "src/main/kotlin")
+}
+
+tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+    this.jvmTarget = "1.8"
+    jdkHome.set(file("path/to/jdkHome"))
+}
+tasks.withType<io.gitlab.arturbosch.detekt.DetektCreateBaselineTask>().configureEach {
+    this.jvmTarget = "1.8"
+    jdkHome.set(file("path/to/jdkHome"))
 }
 
 dependencies {
