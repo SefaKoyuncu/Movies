@@ -1,4 +1,4 @@
-package com.sefa.feature_main.utils
+package com.sefa.common_test
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

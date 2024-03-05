@@ -1,4 +1,4 @@
-package com.sefa.feature_details.utils
+package com.sefa.common_test
 
 import com.sefa.domain.model.Movies
 import com.sefa.domain.model.SingleMovie
