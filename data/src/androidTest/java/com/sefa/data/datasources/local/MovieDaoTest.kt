@@ -1,13 +1,11 @@
-package com.sefa.movies.data.local
+package com.sefa.data.datasources.local
 
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.google.common.truth.Truth.assertThat
-import com.sefa.movies.data.datasources.local.MovieDAO
-import com.sefa.movies.data.datasources.local.MovieDatabase
-import com.sefa.movies.domain.model.Movie
+import com.sefa.domain.model.SingleMovie
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -20,7 +18,7 @@ class MovieDaoTest
 {
     private lateinit var database: MovieDatabase
     private lateinit var movieDao: MovieDAO
-    private lateinit var movie: Movie
+    private lateinit var movie: SingleMovie
 
     @Before
     fun setupDatabase() {
@@ -30,7 +28,7 @@ class MovieDaoTest
         ).allowMainThreadQueries().build()
 
         movieDao = database.movieDao()
-        movie = Movie(1, "title1", "01.01.2001", 1.1, "poster1", "overview1")
+        movie = SingleMovie(1, "title1", "01.01.2001", 1.1, "poster1", "overview1")
     }
 
     @After

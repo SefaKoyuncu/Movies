@@ -1,5 +1,7 @@
-package com.sefa.movies.domain.usecase
-import com.sefa.movies.domain.repository.MovieRepository
+package com.sefa.domain.usecase
+
+import com.sefa.data.repository.MovieRepository
+import com.sefa.domain.DataPlaceholder
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -10,23 +12,25 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class GetIsMovieExistInDbUseCaseTest {
+class GetIsMovieExistInDbUseCaseTest
+{
 
     @Test
     fun `invoke should return Flow of Boolean`() = runBlocking {
 
         //Given
+        val movie = DataPlaceholder.movie
         val movieRepository = mockk<MovieRepository>()
         val getIsMovieExistInDbUseCase = GetIsMovieExistInDbUseCase(movieRepository)
-        val sampleMovieID = 123
-        coEvery { movieRepository.isMovieExistInDb(sampleMovieID) } returns flow { emit(true) }
+
+        coEvery { movieRepository.isMovieExist(movieID = movie.id) } returns flow { emit(true) }
 
         // When
-        val resultFlow: Flow<Boolean> = getIsMovieExistInDbUseCase.invoke(sampleMovieID)
+        val resultFlow: Flow<Boolean> = getIsMovieExistInDbUseCase.invoke(movieID = movie.id)
         val resultBoolean: Boolean? = resultFlow.firstOrNull()
 
         // Then
         assertEquals(true, resultBoolean)
-        coVerify { movieRepository.isMovieExistInDb(sampleMovieID) }
+        coVerify { movieRepository.isMovieExist(movieID = movie.id) }
     }
 }

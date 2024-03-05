@@ -1,4 +1,4 @@
-package com.sefa.movies
+package com.sefa.feature_main.utils
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

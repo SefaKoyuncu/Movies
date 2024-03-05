@@ -30,7 +30,7 @@ class MovieRepository
             .flowOn(Dispatchers.IO)
     }
 
-    override suspend fun upsertMovie(movie: SingleMovie) = movieDAO.upsertMovie(movie)
+    override suspend fun insertMovie(movie: SingleMovie) = movieDAO.upsertMovie(movie)
 
     override suspend fun deleteMovie(movieID: Int) = movieDAO.deleteMovie(movieID)
 

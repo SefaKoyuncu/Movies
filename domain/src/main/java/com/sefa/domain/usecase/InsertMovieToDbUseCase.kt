@@ -9,6 +9,6 @@ class InsertMovieToDbUseCase
 {
     suspend fun invoke(movie: SingleMovie)
     {
-        movieGateway.upsertMovie(movie)
+        movieGateway.insertMovie(movie)
     }
 }

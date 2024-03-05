@@ -1,6 +1,7 @@
-package com.sefa.movies.domain.usecase
+package com.sefa.domain.usecase
 
-import com.sefa.movies.domain.repository.MovieRepository
+import com.sefa.data.repository.MovieRepository
+import com.sefa.domain.DataPlaceholder
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -9,8 +10,10 @@ import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
-class DeleteMovieFromDbUseCaseTest {
+class DeleteMovieFromDbUseCaseTest
+{
 
+    private val movie = DataPlaceholder.movie
     @Test
     fun `invoke should call deleteFromDb in MovieRepository`() = runBlocking {
 
@@ -19,10 +22,10 @@ class DeleteMovieFromDbUseCaseTest {
         val deleteMovieFromDbUseCase = DeleteMovieFromDbUseCase(movieRepository)
 
         // When
-        coEvery { movieRepository.deleteFromDb(any()) } just Runs
-        deleteMovieFromDbUseCase.invoke(movieID = 123)
+        coEvery { movieRepository.deleteMovie(any()) } just Runs
+        deleteMovieFromDbUseCase.invoke(movieID = movie.id)
 
         // Then
-        coVerify { movieRepository.deleteFromDb(movieID = 123) }
+        coVerify { movieRepository.deleteMovie(movieID = movie.id) }
     }
 }

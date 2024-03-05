@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface MovieGateway
 {
     suspend fun getPopularMovies() : Flow<PagingData<SingleMovie>>
-    suspend fun upsertMovie(movie: SingleMovie)
+    suspend fun insertMovie(movie: SingleMovie)
     suspend fun deleteMovie(movieID: Int)
     suspend fun isMovieExist(movieID: Int) : Flow<Boolean>
     suspend fun getFavMovies() : Flow<PagingData<SingleMovie>>
