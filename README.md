@@ -19,6 +19,8 @@
 - Version Catalog
 - Ksp
 - Gradle Kotlin Dsl
+- Ktlint
+- Detekt
 - Unit Test
   + JUnit
   + Turbine
