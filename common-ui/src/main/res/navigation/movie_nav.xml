@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/movie_nav"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.sefa.feature_main.MainFragment"
+        android:label="MainFragment">
+        <action
+            android:id="@+id/fromMaintoDetails"
+            app:destination="@id/detailsFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/fromMainToFav"
+            app:destination="@id/favFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.sefa.feature_details.DetailsFragment"
+        android:label="DetailsFragment">
+        <argument
+            android:name="movie"
+            app:argType="com.sefa.domain.model.SingleMovie" />
+    </fragment>
+    <fragment
+        android:id="@+id/favFragment"
+        android:name="com.sefa.feature_fav.FavFragment"
+        android:label="FavFragment">
+        <action
+            android:id="@+id/fromFavToDetails"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+</navigation>

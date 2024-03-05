@@ -5,20 +5,21 @@ plugins {
     alias(libs.plugins.android.kotlin)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.parcelize)
-    alias(libs.plugins.navigation.safeargs)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.ktlint)
+    alias(libs.plugins.detekt)
 }
 
 android {
     namespace = "com.sefa.movies"
-    compileSdk = 34
+    compileSdk = libs.versions.compile.sdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.sefa.movies"
-        minSdk =  24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        minSdk = libs.versions.min.sdk.get().toInt()
+        targetSdk = libs.versions.target.sdk.get().toInt()
+        versionCode = libs.versions.version.code.get().toInt()
+        versionName = libs.versions.version.name.get()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -39,6 +40,7 @@ android {
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.getByName("debug")
+            isDebuggable = true
         }
     }
     compileOptions {
@@ -50,6 +52,27 @@ android {
     }
 }
 
+ktlint {
+    debug.set(true)
+    ignoreFailures.set(false)
+    disabledRules.addAll("no-wildcard-imports", "final-newline")
+}
+
+detekt {
+    autoCorrect = true
+    buildUponDefaultConfig = true
+    source.setFrom("src/main/java", "src/main/kotlin")
+}
+
+tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+    this.jvmTarget = "1.8"
+    jdkHome.set(file("path/to/jdkHome"))
+}
+tasks.withType<io.gitlab.arturbosch.detekt.DetektCreateBaselineTask>().configureEach {
+    this.jvmTarget = "1.8"
+    jdkHome.set(file("path/to/jdkHome"))
+}
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -57,6 +80,13 @@ dependencies {
     implementation(libs.android.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.junit.ktx)
+
+    implementation(project(":data"))
+    implementation(project(":domain"))
+    implementation(project(":feature-details"))
+    implementation(project(":feature-fav"))
+    implementation(project(":feature-main"))
+    implementation(project(":common-ui"))
 
     // Retrofit
     implementation(libs.bundles.retrofit)
@@ -76,34 +106,9 @@ dependencies {
     implementation(libs.hilt)
     ksp(libs.hilt.ksp)
 
-    // ViewModel-LiveData
-    implementation(libs.bundles.viewmodel)
-    implementation(libs.bundles.lifecycle)
-
     // Coroutines
     implementation(libs.bundles.coroutine)
-    testImplementation(libs.coroutines.test)
-
-    // Coil
-    implementation(libs.coil)
-
-    // Paging3
-    implementation(libs.paging)
 
     // LeakCanary
     debugImplementation(libs.leakcanary)
-
-    // Test
-    testImplementation(libs.androidx.core.testing)
-    testImplementation(libs.turbine)
-    testImplementation(libs.bundles.mockito)
-    testImplementation(libs.mockk)
-    testImplementation(libs.truth)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.truth)
-    androidTestImplementation(libs.androidx.core.testing)
-    androidTestImplementation(libs.bundles.androidx.android.test)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.android.core.testing)
-    androidTestImplementation(libs.espresso.core)
 }
