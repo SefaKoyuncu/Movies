@@ -85,9 +85,6 @@ dependencies {
     // Paging3
     implementation(libs.paging)
 
-    // Retrofit
-    implementation(libs.bundles.retrofit)
-
     // ViewModel-LiveData
     implementation(libs.bundles.viewmodel)
     implementation(libs.bundles.lifecycle)
@@ -102,10 +99,4 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.truth)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.truth)
-    androidTestImplementation(libs.androidx.core.testing)
-    androidTestImplementation(libs.bundles.androidx.android.test)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.android.core.testing)
-    androidTestImplementation(libs.espresso.core)
 }

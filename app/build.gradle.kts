@@ -106,34 +106,9 @@ dependencies {
     implementation(libs.hilt)
     ksp(libs.hilt.ksp)
 
-    // ViewModel-LiveData
-    implementation(libs.bundles.viewmodel)
-    implementation(libs.bundles.lifecycle)
-
     // Coroutines
     implementation(libs.bundles.coroutine)
-    testImplementation(libs.coroutines.test)
-
-    // Coil
-    implementation(libs.coil)
-
-    // Paging3
-    implementation(libs.paging)
 
     // LeakCanary
     debugImplementation(libs.leakcanary)
-
-    // Test
-    testImplementation(libs.androidx.core.testing)
-    testImplementation(libs.turbine)
-    testImplementation(libs.bundles.mockito)
-    testImplementation(libs.mockk)
-    testImplementation(libs.truth)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.truth)
-    androidTestImplementation(libs.androidx.core.testing)
-    androidTestImplementation(libs.bundles.androidx.android.test)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.android.core.testing)
-    androidTestImplementation(libs.espresso.core)
 }

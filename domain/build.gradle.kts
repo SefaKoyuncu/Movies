@@ -69,24 +69,14 @@ dependencies {
     annotationProcessor(libs.room.annotationProcessor)
     ksp(libs.room.ksp)
 
-    // Retrofit
-    implementation(libs.bundles.retrofit)
-
     //Inject
     implementation(libs.inject)
 
     // Test
     testImplementation(project(":data"))
     testImplementation(libs.androidx.core.testing)
-    testImplementation(libs.turbine)
     testImplementation(libs.bundles.mockito)
     testImplementation(libs.mockk)
     testImplementation(libs.truth)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.truth)
-    androidTestImplementation(libs.androidx.core.testing)
-    androidTestImplementation(libs.bundles.androidx.android.test)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.android.core.testing)
-    androidTestImplementation(libs.espresso.core)
 }
