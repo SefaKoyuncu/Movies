@@ -1,5 +1,8 @@
 package com.sefa.data.model
 
+import androidx.annotation.Keep
+
+@Keep
 data class Result(
     val adult: Boolean,
     val backdrop_path: String,
