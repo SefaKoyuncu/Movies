@@ -8,7 +8,7 @@ import com.sefa.data.datasources.local.MovieDatabase
 import com.sefa.data.datasources.remote.interceptor.AuthInterceptor
 import com.sefa.data.datasources.remote.service.MovieService
 import com.sefa.movies.BuildConfig
-import com.sefa.movies.utils.Constants
+import com.sefa.movies.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

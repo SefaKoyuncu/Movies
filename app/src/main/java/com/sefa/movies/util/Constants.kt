@@ -1,4 +1,4 @@
-package com.sefa.movies.utils
+package com.sefa.movies.util
 
 object Constants
 {
