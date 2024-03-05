@@ -101,6 +101,8 @@ dependencies {
     testImplementation(libs.turbine)
     testImplementation(libs.bundles.mockito)
     testImplementation(libs.mockk)
+    testImplementation(libs.mockwebserver)
+    testImplementation(libs.coroutines.test)
     testImplementation(libs.truth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.truth)

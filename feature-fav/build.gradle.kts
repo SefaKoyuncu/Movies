@@ -79,6 +79,7 @@ dependencies {
 
     // Coroutines
     implementation(libs.bundles.coroutine)
+    testImplementation(libs.coroutines.test)
 
     // Paging3
     implementation(libs.paging)

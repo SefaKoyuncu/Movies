@@ -82,6 +82,7 @@ dependencies {
 
     // Coroutines
     implementation(libs.bundles.coroutine)
+    testImplementation(libs.coroutines.test)
 
     // Navigation
     implementation(libs.bundles.navigation)

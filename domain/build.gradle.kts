@@ -76,6 +76,7 @@ dependencies {
     implementation(libs.inject)
 
     // Test
+    testImplementation(project(":data"))
     testImplementation(libs.androidx.core.testing)
     testImplementation(libs.turbine)
     testImplementation(libs.bundles.mockito)
