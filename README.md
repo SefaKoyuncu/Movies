@@ -21,6 +21,7 @@
 - Gradle Kotlin Dsl
 - Ktlint
 - Detekt
+- LeakCanary
 - Unit Test
   + JUnit
   + Turbine
