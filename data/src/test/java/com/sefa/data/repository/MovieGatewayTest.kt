@@ -3,7 +3,7 @@ package com.sefa.data.repository
 import androidx.paging.PagingData
 import com.sefa.data.datasources.local.MovieDAO
 import com.sefa.data.datasources.remote.service.MovieService
-import com.sefa.data.util.DataPlaceholder
+import com.sefa.common_test.DataPlaceholder
 import com.sefa.domain.model.SingleMovie
 import io.mockk.Runs
 import io.mockk.coEvery

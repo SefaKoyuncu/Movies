@@ -2,10 +2,10 @@ package com.sefa.feature_main.viewmodel
 
 import androidx.paging.PagingData
 import app.cash.turbine.test
+import com.sefa.common_test.DataPlaceholder
+import com.sefa.common_test.MainDispatcherCoroutineRule
 import com.sefa.domain.model.SingleMovie
 import com.sefa.domain.usecase.GetMoviesFromAPIUseCase
-import com.sefa.feature_main.utils.DataPlaceholder
-import com.sefa.feature_main.utils.MainDispatcherCoroutineRule
 import com.sefa.feature_main.MainViewModel
 import io.mockk.coEvery
 import io.mockk.mockk

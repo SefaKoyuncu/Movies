@@ -1,8 +1,8 @@
 package com.sefa.domain.usecase
 
 import androidx.paging.PagingData
+import com.sefa.common_test.DataPlaceholder
 import com.sefa.data.repository.MovieRepository
-import com.sefa.domain.DataPlaceholder
 import com.sefa.domain.model.SingleMovie
 import io.mockk.coEvery
 import io.mockk.mockk

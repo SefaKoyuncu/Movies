@@ -18,8 +18,8 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sefa.common_ui.adapter.LoaderStateAdapter
 import com.sefa.common_ui.adapter.PagingMovieAdapter
-import com.sefa.common_ui.utils.Gone
-import com.sefa.common_ui.utils.Visible
+import com.sefa.common_ui.util.Gone
+import com.sefa.common_ui.util.Visible
 import com.sefa.domain.model.SingleMovie
 import com.sefa.feature_main.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint

@@ -1,7 +1,7 @@
 package com.sefa.domain.usecase
 
+import com.sefa.common_test.DataPlaceholder
 import com.sefa.data.repository.MovieRepository
-import com.sefa.domain.DataPlaceholder
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

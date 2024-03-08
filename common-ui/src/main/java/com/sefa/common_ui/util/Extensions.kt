@@ -1,4 +1,4 @@
-package com.sefa.common_ui.utils
+package com.sefa.common_ui.util
 
 import android.view.View
 

@@ -88,6 +88,8 @@ dependencies {
     implementation(libs.bundles.navigation)
 
     // Test
+    testImplementation(project(":common-test"))
+
     testImplementation(libs.androidx.core.testing)
     testImplementation(libs.turbine)
     testImplementation(libs.bundles.mockito)

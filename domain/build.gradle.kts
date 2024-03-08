@@ -74,6 +74,8 @@ dependencies {
 
     // Test
     testImplementation(project(":data"))
+    testImplementation(project(":common-test"))
+
     testImplementation(libs.androidx.core.testing)
     testImplementation(libs.bundles.mockito)
     testImplementation(libs.mockk)

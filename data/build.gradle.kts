@@ -97,6 +97,8 @@ dependencies {
     implementation(libs.inject)
 
     // Testing
+    testImplementation(project(":common-test"))
+
     testImplementation(libs.androidx.core.testing)
     testImplementation(libs.turbine)
     testImplementation(libs.bundles.mockito)

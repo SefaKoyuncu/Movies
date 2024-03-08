@@ -1,12 +1,12 @@
 package com.sefa.feature_details.viewmodel
 
 import app.cash.turbine.test
+import com.sefa.common_test.DataPlaceholder
+import com.sefa.common_test.MainDispatcherCoroutineRule
 import com.sefa.domain.usecase.DeleteMovieFromDbUseCase
 import com.sefa.domain.usecase.GetIsMovieExistInDbUseCase
 import com.sefa.domain.usecase.InsertMovieToDbUseCase
 import com.sefa.feature_details.DetailsViewModel
-import com.sefa.feature_details.utils.DataPlaceholder
-import com.sefa.feature_details.utils.MainDispatcherCoroutineRule
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
